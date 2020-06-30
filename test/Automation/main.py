@@ -3,10 +3,10 @@ import re
 import time
 
 class Linux():
-    def __init__(self, ip, username, password, timeout='', port=22,):    # 通过IP, 用户名，密码，超时时间初始化一个远程Linux主机
+    def __init__(self, ip, port, username, password, timeout=10):    # 通过IP, 用户名，密码，超时时间初始化一个远程Linux主机
         self.ip = ip
         self.username = username
-        self.password = password
+        self.password = str(password)
         self.timeout = timeout
         self.port = port
             # transport和chanel
@@ -76,14 +76,15 @@ class Linux():
         pass
 
     def close(self):    # 断开连接
+        self.sshc.close()
         self.chan.close()
         #self.tran.close()
 
 
 if __name__ == '__main__':
-    host = Linux('172.22.0.251', 'cattsoft', 'Cat@1234')
+    host = Linux('193.168.11.110', 22, 'cat', '1')
     host.ssh()    #ip,用户,密码,超时时间(可选),端口(默认22)
-    host.su_root('Rot@1234')
+    host.su_root('0')
     #host.send('cd /home/cattsoft')
     host.send('ls')
     #host.send('ls --color=never')   #解决cmd杂码
